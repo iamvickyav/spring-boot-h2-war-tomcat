@@ -21,18 +21,46 @@ public interface EmployeeService extends JpaRepository<Employee, Integer>{
 }
 ```
 
-**To Run without Docker**
+## Getting Tomcat ready
+
+In tomcat-users.xml file under <tomcat_installation_dir>/conf/tomcat-users.xml, add the following lines
+
+```xml
+<role rolename="manager-gui"/>
+<role rolename="manager-script"/>
+<user username="admin" password="admin" roles="manager-gui,manager-script"/>
+```
+
+Start the tomcat with
+
+```sh
+> ./bin/catalina.sh start
+```
+
+**To Deploy application in Tomcat**
+
+To deploy in tomcat using maven, we added the tomcat7-maven-plugin in pom.xml
+
+```xml
+<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<url>http://localhost:8080/manager/text</url>
+					<server>localhost</server>
+					<path>/${finalName}</path>
+					<username>admin</username>
+					<password>admin</password>
+					<update>true</update>
+				</configuration>
+</plugin>
+```
 
 ```
-> mvn clean install
-> java -jar target/spring-h2-demo.jar
+> mvn clean package
+> mvn tomcat7:deploy
 ```
 
-**To Run with Docker**
-```
-> mvn clean install
-> docker build -t springboot-h2-sample
-> docker run -d -p 8080:8080 springboot-h2-sample
 
-> docker stop <image-name>
-```
+
