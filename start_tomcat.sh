@@ -9,5 +9,6 @@ if [ -d "$DIR" ]; then
   ./catalina.sh start
 else
   echo "*** INVALID PATH INPUT ***"
+  exit 1
 fi
   echo "*** TOMCAT SCRIPT EXECUTION END ***"
