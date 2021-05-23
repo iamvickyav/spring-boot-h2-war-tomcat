@@ -1,0 +1,40 @@
+format_version: 2
+pipelines:
+  pipeline_code_demo:
+    group: defaultGroup
+    materials:
+      backend:
+        git: https://github.com/iamvickyav/spring-boot-h2-war-tomcat.git
+        branch: master
+      stages:
+        - Build_Demo_Project_Stage:
+            clean_workspace: true
+            jobs:
+              build_task:
+                tasks:
+                  - exec:
+                      run_if: passed
+                      command: mvn
+                      arguments:
+                      - package
+        - Start_Tomcat_Stage:
+            clean_workspace: true
+            jobs:
+              start_tomcat_task:
+                tasks:
+                  - exec:
+                      run_if: passed
+                      command: /bin/sh
+                      arguments:
+                      - start_tomcat.sh
+                      - /opt/tomcat-8.5.41 
+        - Deploy_Project_Stage:
+            clean_workspace: true
+            jobs:
+              deploy_project_task:
+                tasks:
+                  - exec:
+                      run_if: passed
+                      command: mvn
+                      arguments:
+                      - tomcat7:deploy
