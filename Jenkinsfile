@@ -21,7 +21,7 @@ pipeline {
                sh "mvn clean package"
             }
         }
-        stage('Build Deploy Code') {
+        stage('Master Branch Deploy Code') {
             when {
                 branch 'master'
             }
@@ -34,7 +34,9 @@ pipeline {
                 echo "Master Deploying Code"
                 """
             }
-            when {
+        }
+        stage('Develop Branch Deploy Code') {
+             when {
                 branch 'develop'
             }
             steps {
@@ -46,6 +48,6 @@ pipeline {
                 echo "Develop Deploying Code"
                 """
             }
-        }
+       }
     }
 }
