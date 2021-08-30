@@ -11,11 +11,6 @@ pipeline {
                 sh "java -version"
             }
         }
-        stage("Checkout Code") {
-            steps {
-                checkout scm
-            }
-        }
         stage("Building Application") {
             steps {
                sh "mvn clean package"
