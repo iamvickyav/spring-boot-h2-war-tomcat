@@ -1,48 +1,19 @@
 pipeline {
     agent any
-    tools {
-        maven 'MAVEN_PATH'
-        jdk 'jdk8'
-    }
     stages {
-        stage("Tools initialization") {
-            steps {
-                sh "mvn --version"
-                sh "java -version"
-            }
-        }
-        stage("Building Application") {
-            steps {
-               sh "mvn clean package"
-            }
-        }
         stage('Master Branch Deploy Code') {
-            when {
-                branch 'master'
-            }
             steps {
                 sh """
-                echo "Master Building Artifact"
-                """
-
-                sh """
-                echo "Master Deploying Code"
+                echo "Building Artifact"
                 """
             }
         }
-        stage('Develop Branch Deploy Code') {
-             when {
-                branch 'develop'
-            }
-            steps {
+       stage('Master Branch Deploy Code') {
+           steps {
                 sh """
-                echo "Develop Building Artifact"
+                echo "Deploying Code"
                 """
-
-                sh """
-                echo "Develop Deploying Code"
-                """
-            }
+           }
        }
     }
 }
