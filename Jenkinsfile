@@ -13,7 +13,7 @@ pipeline {
         }
         stage("Checkout Code") {
             steps {
-                url: "https://github.com/iamvickyav/spring-boot-h2-war-tomcat.git"
+                checkout scm
             }
         }
         stage("Building Application") {
