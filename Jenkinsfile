@@ -1,19 +1,33 @@
 pipeline {
     agent any
     stages {
-        stage('Build Code') {
+        stage('Master Branch Deploy Code') {
+            when {
+                branch 'master'
+            }
             steps {
                 sh """
-                echo "Building Artifact from Develop Branch"
+                echo "Building Artifact from Master branch"
+                """
+
+                sh """
+                echo "Deploying Code from Master branch"
                 """
             }
         }
-       stage('Deploy Code') {
-           steps {
+        stage('Develop Branch Deploy Code') {
+            when {
+                branch 'develop'
+            }
+            steps {
                 sh """
-                echo "Deploying Code from Develop Branch"
+                echo "Building Artifact from Develop branch"
+                """
+
+                sh """
+                echo "Deploying Code from Develop branch"
                 """
            }
-       }
+        }
     }
 }
