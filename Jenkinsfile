@@ -1,33 +1,38 @@
 pipeline {
     agent any
+    tools {
+        maven 'MAVEN_PATH'
+        jdk 'jdk8'
+    }
     stages {
-        stage('Master Branch Deploy Code') {
-            when {
-                branch 'master'
-            }
+        stage("Tools initialization") {
             steps {
-                sh """
-                echo "Building Artifact from Master branch"
-                """
-
-                sh """
-                echo "Deploying Code from Master branch"
-                """
+                sh "mvn --version"
+                sh "java -version"
             }
         }
-        stage('Develop Branch Deploy Code') {
-            when {
-                branch 'develop'
-            }
+        stage("Checkout Code") {
             steps {
-                sh """
-                echo "Building Artifact from Develop branch"
-                """
-
-                sh """
-                echo "Deploying Code from Develop branch"
-                """
+                checkout scm
+            }
+        }
+        stage("Building Application") {
+            steps {
+               sh "mvn clean package"
+            }
+        }
+        stage("Code coverage") {
+           steps {
+               jacoco(
+                    execPattern: '**/target/**.exec',
+                    classPattern: '**/target/classes',
+                    sourcePattern: '**/src',
+                    inclusionPattern: 'com/iamvickyav/**',
+                    changeBuildStatus: true,
+                    minimumInstructionCoverage: '30',
+                    maximumInstructionCoverage: '80')
+               }
            }
         }
     }
-}
+ }
