@@ -16,13 +16,32 @@ pipeline {
                 checkout scm
             }
         }
-        stage("Building Application") {
-            steps {
+        stage("Check Code Health") {
+            when {
+                not {
+                    anyOf {
+                        branch 'master';
+                        branch 'develop'
+                    }
+                }
+           }
+           steps {
+               sh "mvn clean compile"
+            }
+        }
+        stage("Build Application") {
+            when {
+                branch 'develop';
+            }
+           steps {
                sh "mvn clean package"
             }
         }
         stage("Code coverage") {
-           steps {
+            when {
+                branch 'develop'
+            }
+            steps {
                jacoco(
                     execPattern: '**/target/**.exec',
                     classPattern: '**/target/classes',
@@ -33,6 +52,14 @@ pipeline {
                     maximumInstructionCoverage: '80')
                }
            }
+        }
+        stage("Deploy Code") {
+            when {
+                branch 'master'
+            }
+            steps {
+                
+            }
         }
     }
  }
