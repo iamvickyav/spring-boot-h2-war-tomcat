@@ -29,15 +29,15 @@ pipeline {
                sh "mvn clean compile"
             }
         }
-        stage("Build Application") {
+        stage("Run Test cases") {
             when {
                 branch 'develop';
             }
            steps {
-               sh "mvn clean package"
+               sh "mvn clean test"
             }
         }
-        stage("Code coverage") {
+        stage("Check Code coverage") {
             when {
                 branch 'develop'
             }
@@ -53,12 +53,12 @@ pipeline {
                }
            }
         }
-        stage("Deploy Code") {
+        stage("Build & Deploy Code") {
             when {
                 branch 'master'
             }
             steps {
-                
+                sh "mvn tomcat7:deploy"
             }
         }
     }
