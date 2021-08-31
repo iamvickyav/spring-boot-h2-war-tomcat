@@ -50,7 +50,6 @@ pipeline {
                     changeBuildStatus: true,
                     minimumInstructionCoverage: '30',
                     maximumInstructionCoverage: '80')
-               }
            }
         }
         stage("Build & Deploy Code") {
