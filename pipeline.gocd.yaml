@@ -16,6 +16,7 @@ pipelines:
                     run_if: passed
                     command: mvn
                     arguments:
+                    - clean
                     - package
       - Start_Tomcat_Stage:
           clean_workspace: true
