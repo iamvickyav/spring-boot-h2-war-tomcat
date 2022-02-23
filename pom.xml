@@ -138,6 +138,16 @@
 					<update>true</update>
 				</configuration>
 			</plugin>
+			<plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                    <fork>true</fork>
+                    <executable>C:\Program Files\Java\jdk1.7.0_79\bin\javac</executable>
+                </configuration>
+            </plugin>
 		</plugins>
 	</build>
 
