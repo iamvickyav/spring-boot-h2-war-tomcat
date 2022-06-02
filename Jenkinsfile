@@ -9,6 +9,7 @@ pipeline {
             steps {
                 sh "mvn --version"
                 sh "java -version"
+                sh 'date'
             }
         }
         stage("Checkout Code") {
